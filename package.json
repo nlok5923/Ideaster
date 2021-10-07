@@ -3,13 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@artsy/fresnel": "^3.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "draft-convert": "^2.1.12",
+    "draft-js": "^0.11.7",
+    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "^4.0.3",
+    "sass": "^1.42.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.4",
+    "solc": "^0.4.7",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web-vitals": "^1.0.1",
+    "web3": "^1.5.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,0 +1,44 @@
+@mixin display-config($justify, $align, $direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin font-config($size, $weight, $color, $family) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+    font-family: $family;
+}
+
+.body-area {
+    @include display-config(center, normal, row);
+    &-navigation {
+    @include font-config(15px, bold, #828282, "roboto");
+        width: 16%;
+        letter-spacing: 1px;
+        background-color: #FCFBFF;
+        margin-top: 1%;
+
+        &-element {
+            height: 60px;
+            width: 100%;
+
+            &-sub {
+                padding-top: 10px;
+                position: relative;
+                @include display-config(flex-start, center, row);
+
+                &-text {
+                    padding-left: 20px;
+                }
+            }
+        }
+
+        &-element:hover {
+            background-color: #E1D8F1;
+            border-left: 6px solid #673AB7;
+        } 
+    }
+}

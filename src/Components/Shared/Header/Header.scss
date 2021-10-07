@@ -1,0 +1,37 @@
+@mixin display-config($justify, $align, $direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin font-config($size, $weight, $color, $family) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+    font-family: $family;
+}
+
+.head {
+    @include display-config(space-between, center, row);
+
+    &-logo {
+        width: 300px;
+    }
+
+    &-content {
+        @include display-config(space-around, center, row);
+        width: 20%;
+
+        &-profile {
+            @include display-config(space-around, center, row);
+            @include font-config(15px, bold, black, "roboto");
+            width: 40%;
+        }
+
+        &-action {
+            @include display-config(space-around, center, row);
+            width: 60%;
+        }
+    }
+}

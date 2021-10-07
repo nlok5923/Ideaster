@@ -1,0 +1,127 @@
+@mixin display-config($justify, $align, $direction) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin font-config($size, $weight, $color, $family) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+    font-family: $family;
+}
+
+.head {
+    @include display-config(space-between, center, row);
+
+    &-logo {
+        width: 300px;
+    }
+
+    &-content {
+        @include display-config(space-around, center, row);
+        width: 20%;
+
+        &-profile {
+            @include display-config(space-around, center, row);
+            @include font-config(15px, bold, black, "roboto");
+            width: 40%;
+        }
+
+        &-action {
+            @include display-config(space-around, center, row);
+            width: 60%;
+        }
+    }
+}
+
+.body-area {
+    @include display-config(center, normal, row);
+    &-navigation {
+    @include font-config(15px, bold, #828282, "roboto");
+        width: 16%;
+        letter-spacing: 1px;
+        background-color: #FCFBFF;
+        margin-top: 1%;
+        // margin-left: 3%;
+
+        &-element {
+            height: 60px;
+            width: 100%;
+
+            &-sub {
+                margin-left: 7%;
+                @include display-config(flex-start, center, row);
+
+                &-text {
+                    padding-left: 20px;
+                }
+            }
+        }
+    }
+
+    &-content {
+        @include font-config(15px, bold, #828282, "roboto");
+        width: 84%;
+
+        &-box {
+            //just shorten this margin code 
+            margin: 3%;
+            margin-right: 6%;
+            margin-top: 1%;
+        }
+    }
+}
+
+.status {
+    @include display-config(space-between, center, row);
+    width: 100%;
+    height: 7vh;
+    border-bottom: #CFD3DA solid 1px;
+
+    &-actions {
+        @include display-config(space-between, center, row); 
+        width: 29%;
+        
+        &-element {
+            @include display-config(space-between, center, row); 
+        }
+
+        &-element > h1 {
+
+            @include font-config(16px,bold, black ,"roboto");
+            letter-spacing: 1.5px;
+            padding-left: 5px
+        }
+    }
+
+    &-state {
+        @include display-config(space-between, center, row);
+        color: black !important;
+        
+        &-img {
+            padding-right: 20px;
+        }
+    }
+}
+
+.contain{
+    width: 92%;
+    margin-top: 3%;
+}
+
+.action {
+    @include display-config(space-between, center, row);
+    width: 25%;
+    height: 7vh;
+
+    &-button {
+        background-color: #673AB7;
+        @include font-config(15px, bold ,white ,"roboto");
+        letter-spacing: 1.5px;
+        border-radius: 4px;
+        border: none;
+        padding: 8px 35px;
+    }
+}
