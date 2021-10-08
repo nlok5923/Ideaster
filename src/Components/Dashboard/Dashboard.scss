@@ -39,7 +39,7 @@
 .body-area {
     @include display-config(center, normal, row);
     &-navigation {
-    @include font-config(15px, bold, #828282, "roboto");
+    @include font-config(15px, bold, black, "roboto");
         width: 16%;
         letter-spacing: 1px;
         background-color: #FCFBFF;
@@ -62,7 +62,7 @@
     }
 
     &-content {
-        @include font-config(15px, bold, #828282, "roboto");
+        @include font-config(15px, bold, black, "roboto");
         width: 84%;
 
         &-box {

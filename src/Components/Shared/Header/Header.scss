@@ -16,7 +16,9 @@
     @include display-config(space-between, center, row);
 
     &-logo {
-        width: 300px;
+        width: 100px;
+        height: 45px;
+        margin-left: 1.2%;
     }
 
     &-content {
@@ -25,7 +27,7 @@
 
         &-profile {
             @include display-config(space-around, center, row);
-            @include font-config(15px, bold, black, "roboto");
+            @include font-config(15px, bold, rgb(161, 144, 144), "roboto");
             width: 40%;
         }
 

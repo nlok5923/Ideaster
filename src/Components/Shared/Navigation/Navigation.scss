@@ -15,7 +15,7 @@
 .body-area {
     @include display-config(center, normal, row);
     &-navigation {
-    @include font-config(15px, bold, #828282, "roboto");
+    @include font-config(15px, bold, black, "roboto");
         width: 16%;
         letter-spacing: 1px;
         background-color: #FCFBFF;
@@ -39,6 +39,7 @@
         &-element:hover {
             background-color: #E1D8F1;
             border-left: 6px solid #673AB7;
+            cursor: pointer;
         } 
     }
 }
