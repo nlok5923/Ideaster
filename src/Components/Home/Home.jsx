@@ -1,6 +1,6 @@
-import { createMedia } from '@artsy/fresnel'
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { createMedia } from "@artsy/fresnel";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import {
   Button,
   Container,
@@ -10,7 +10,7 @@ import {
   Segment,
   Sidebar,
   Visibility,
-} from 'semantic-ui-react'
+} from "semantic-ui-react";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -18,56 +18,56 @@ const { MediaContextProvider, Media } = createMedia({
     tablet: 768,
     computer: 1024,
   },
-})
+});
 
 const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
-      as='h1'
-      content='Ideasters'
+      as="h1"
+      content="Ideasters"
       inverted
       style={{
-        fontSize: mobile ? '2em' : '4em',
-        fontWeight: 'normal',
+        fontSize: mobile ? "2em" : "4em",
+        fontWeight: "normal",
         marginBottom: 0,
-        fontFamily: 'poppins',
-        marginTop: mobile ? '1.5em' : '3em',
+        fontFamily: "poppins",
+        marginTop: mobile ? "1.5em" : "3em",
       }}
     />
     <Header
-      as='h2'
-      content='Best way to test your idea feasibility'
+      as="h2"
+      content="Best way to test your idea feasibility"
       inverted
       style={{
-        fontSize: mobile ? '1.5em' : '1.7em',
-        fontWeight: 'normal',
-        fontFamily: 'poppins',
-        marginTop: mobile ? '0.5em' : '1.5em',
+        fontSize: mobile ? "1.5em" : "1.7em",
+        fontWeight: "normal",
+        fontFamily: "poppins",
+        marginTop: mobile ? "0.5em" : "1.5em",
       }}
     />
-    <Button primary size='huge'>
+    <Button primary size="huge">
       Get Started
-      <Icon name='right arrow' />
+      <Icon name="right arrow" />
     </Button>
   </Container>
-)
+);
 
 HomepageHeading.propTypes = {
   mobile: PropTypes.bool,
-}
+};
 
 class DesktopContainer extends Component {
-  state = {}
+  state = {};
 
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
+  hideFixedMenu = () => this.setState({ fixed: false });
+  showFixedMenu = () => this.setState({ fixed: true });
 
   render() {
-    const { children } = this.props
-    const { fixed } = this.state
+    const { children } = this.props;
+    const { fixed } = this.state;
 
     return (
-      <Media greaterThan='mobile'>
+      <Media greaterThan="mobile">
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
@@ -75,24 +75,24 @@ class DesktopContainer extends Component {
         >
           <Segment
             inverted
-            textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
+            textAlign="center"
+            style={{ minHeight: 700, padding: "1em 0em" }}
             vertical
           >
             <Menu
-              fixed={fixed ? 'top' : null}
+              fixed={fixed ? "top" : null}
               inverted={!fixed}
               pointing={!fixed}
               secondary={!fixed}
-              size='large'
+              size="large"
             >
               <Container>
-                <Menu.Item as='a' active>
+                <Menu.Item as="a" active>
                   Home
                 </Menu.Item>
-                <Menu.Item as='a'>About</Menu.Item>
-                <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
+                <Menu.Item as="a">About</Menu.Item>
+                <Menu.Item position="right">
+                  <Button as="a" inverted={!fixed}>
                     Enter
                   </Button>
                 </Menu.Item>
@@ -104,57 +104,57 @@ class DesktopContainer extends Component {
 
         {children}
       </Media>
-    )
+    );
   }
 }
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 class MobileContainer extends Component {
-  state = {}
+  state = {};
 
-  handleSidebarHide = () => this.setState({ sidebarOpened: false })
+  handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
-  handleToggle = () => this.setState({ sidebarOpened: true })
+  handleToggle = () => this.setState({ sidebarOpened: true });
 
   render() {
-    const { children } = this.props
-    const { sidebarOpened } = this.state
+    const { children } = this.props;
+    const { sidebarOpened } = this.state;
 
     return (
-      <Media as={Sidebar.Pushable} at='mobile'>
+      <Media as={Sidebar.Pushable} at="mobile">
         <Sidebar.Pushable>
           <Sidebar
             as={Menu}
-            animation='overlay'
+            animation="overlay"
             inverted
             onHide={this.handleSidebarHide}
             vertical
             visible={sidebarOpened}
           >
-            <Menu.Item as='a' active>
+            <Menu.Item as="a" active>
               Home
             </Menu.Item>
-            <Menu.Item as='a'>About</Menu.Item>
-            <Menu.Item as='a'>Enter</Menu.Item>
+            <Menu.Item as="a">About</Menu.Item>
+            <Menu.Item as="a">Enter</Menu.Item>
           </Sidebar>
 
           <Sidebar.Pusher dimmed={sidebarOpened}>
             <Segment
               inverted
-              textAlign='center'
-              style={{ minHeight: 350, padding: '1em 0em' }}
+              textAlign="center"
+              style={{ minHeight: 350, padding: "1em 0em" }}
               vertical
             >
               <Container>
-                <Menu inverted pointing secondary size='large'>
+                <Menu inverted pointing secondary size="large">
                   <Menu.Item onClick={this.handleToggle}>
-                    <Icon name='sidebar' />
+                    <Icon name="sidebar" />
                   </Menu.Item>
-                  <Menu.Item position='right'>
-                    <Button as='a' inverted>
+                  <Menu.Item position="right">
+                    <Button as="a" inverted>
                       Enter
                     </Button>
                   </Menu.Item>
@@ -167,31 +167,31 @@ class MobileContainer extends Component {
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Media>
-    )
+    );
   }
 }
 
 MobileContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 const ResponsiveContainer = ({ children }) => (
   <MediaContextProvider>
     <DesktopContainer>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
   </MediaContextProvider>
-)
+);
 
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 const HomepageLayout = () => (
   <ResponsiveContainer>
-      <Container textAlign="center" style={{ marginTop: "35px" }} >
-          coded with 💻 by @nlok5923
-      </Container>
+    <Container textAlign="center" style={{ marginTop: "35px" }}>
+      coded with 💻 by @nlok5923
+    </Container>
   </ResponsiveContainer>
-)
+);
 
-export default HomepageLayout
+export default HomepageLayout;

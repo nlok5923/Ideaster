@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Profile.scss";
+import { useHistory } from "react-router";
 import {
   Container,
   Header,
@@ -13,6 +14,7 @@ import {
 import { options, genderOptions } from "../../../Content/Profile";
 
 const ProfilePage = () => {
+  const history = useHistory();
   const setDropdownValues = (e, data) => {
     setUserInformation({ ...userInformation, [data.name]: data.value });
   };
@@ -28,12 +30,17 @@ const ProfilePage = () => {
     profession: "",
     aboutYou: "",
     terms: [],
+    ageMin: "",
+    ageMax: "",
   });
 
   const setUserInfo = (e) => {
     setUserInformation({ ...userInformation, [e.target.name]: e.target.value });
   };
 
+  const returnBack = () => {
+    history.goBack();
+  };
   return (
     <>
       <Container>
@@ -111,6 +118,24 @@ const ProfilePage = () => {
                 placeholder="country"
               />
             </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Field
+                id="form-input-control-first-name"
+                control={Input}
+                label="min age"
+                name="ageMin"
+                onChange={(e) => setUserInfo(e)}
+                placeholder="Enter age lower bound"
+              />
+              <Form.Field
+                id="form-input-control-last-name"
+                control={Input}
+                name="ageMax"
+                label="max age"
+                onChange={(e) => setUserInfo(e)}
+                placeholder="Enter age upper bound"
+              />
+            </Form.Group>
             <Form.Field
               id="form-input-control-last-name"
               control={Input}
@@ -146,6 +171,14 @@ const ProfilePage = () => {
           style={{ marginTop: "20px" }}
           size="large"
           floated="center"
+        />
+        <Button
+          onClick={() => returnBack()}
+          primary
+          icon="backward"
+          style={{ marginTop: "20px" }}
+          size="large"
+          floated="right"
         />
       </Container>
     </>
