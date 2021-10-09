@@ -23,6 +23,7 @@ const Create = () => {
     description: "",
     types: "",
     responses: "",
+    threshold: "",
     amount: "",
     ageMin: "",
     ageMax: "",
