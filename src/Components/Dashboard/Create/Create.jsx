@@ -6,28 +6,33 @@ import {
   Button,
   Dropdown,
   Input,
+  Message,
 } from "semantic-ui-react";
 import { EditorState } from "draft-js";
 import { options } from "../../../Content/Profile";
-// import { convertToHTML } from "draft-convert";
+import { convertToHTML } from "draft-convert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./Create.scss";
 import { useHistory } from "react-router";
+import factory from "../../../ethereum/Factory";
+import web3 from "../../../ethereum/web3";
+import toast, { Toaster } from "react-hot-toast";
 
 const Create = () => {
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const [idea, setIdea] = useState({
     title: "",
-    description: "",
     types: "",
     responses: "",
-    threshold: "",
     amount: "",
     ageMin: "",
     ageMax: "",
   });
+
+  const [errMessage, setErrMessage] = useState("");
 
   const setDropdownValues = (e, data) => {
     setIdea({ ...idea, [data.name]: data.value });
@@ -44,7 +49,7 @@ const Create = () => {
     EditorState.createEmpty()
   );
 
-  // const [convertedContent, setConvertedContent] = useState(null);
+  const [convertedContent, setConvertedContent] = useState(null);
 
   const handleEditorChange = (state) => {
     setEditorState(state);
@@ -52,21 +57,54 @@ const Create = () => {
   };
 
   const convertContentToHTML = () => {
-    // let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-    // setConvertedContent(currentContentAsHTML);
+    const currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    setConvertedContent(currentContentAsHTML);
+    console.log(convertedContent);
+    console.log(idea);
+  };
+
+  const deployIdea = async () => {
+    try {
+      setLoading(true);
+      const accounts = await web3.eth.getAccounts();
+      await factory.methods
+        .createIdeas(
+          idea.title,
+          JSON.stringify(convertedContent),
+          idea.responses,
+          idea.amount,
+          idea.ageMax,
+          idea.ageMin
+        )
+        .send({
+          from: accounts[0],
+          type: "0x2",
+        });
+      toast.success("Success fully deployed idea !!");
+      setLoading(false);
+    } catch (err) {
+      console.log("this err occured ", err);
+      toast.error("Probably it didn't worked !!");
+      setErrMessage(err);
+    }
   };
 
   return (
     <>
       <Container>
+        <Toaster />
         <Segment>
           here we will mention what you need to write in the text editor
         </Segment>
         <Segment>
-          <Form>
+          <Form error={!!errMessage}>
             <Form.Field>
               <label>Enter your idea title </label>
-              <input name="title" placeholder="idea title" />
+              <input
+                name="title"
+                placeholder="idea title"
+                onChange={(e) => setEssentialValues(e)}
+              />
             </Form.Field>
 
             <Form.Field>
@@ -130,11 +168,14 @@ const Create = () => {
                 type="number"
               />
             </Form.Group>
+            <Message error header="Oops!" content={errMessage} />
           </Form>
           <Button
             primary
-            content="save"
+            content="deploy"
+            loading={loading}
             icon="save"
+            onClick={() => deployIdea()}
             style={{ marginTop: "20px" }}
           />
           <Button

@@ -8,6 +8,7 @@ import Create from "./Components/Dashboard/Create/Create";
 import ProfilePage from "./Components/Dashboard/Profile/Profile";
 import Header from "./Components/Shared/Header/Header";
 import Exploration from "./Components/Dashboard/Exploration/Exploration";
+import IdeaPage from "./Components/IdeaPage/IdeaPage";
 
 const App = () => {
   return (
@@ -23,6 +24,11 @@ const App = () => {
             exact
             path="/user/dashboard/exploration"
             component={Exploration}
+          />
+          <Route
+            exact
+            path="/user/dashboard/idea/:ideaId"
+            component={IdeaPage}
           />
         </Switch>
       </Router>

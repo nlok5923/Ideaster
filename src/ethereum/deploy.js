@@ -1,6 +1,6 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
-const compiledFactory = require("./build/Factory.json");
+const compiledFactory = require("./build/ideaFactory.json");
 
 const provider = new HDWalletProvider(
   "video aisle spend cycle razor wagon sugar monitor caught raven lyrics camera",
