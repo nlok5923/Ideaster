@@ -27,7 +27,7 @@ const App = () => {
           />
           <Route
             exact
-            path="/user/dashboard/idea/:ideaId"
+            path="/user/dashboard/exploration/:ideaAddress"
             component={IdeaPage}
           />
         </Switch>

@@ -1,30 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Exploration.scss";
 import { Container, Divider, Header, Grid } from "semantic-ui-react";
 import IdeaCard from "../../Shared/IdeaCard/IdeaCard";
 import factory from "../../../ethereum/Factory";
+import { NavLink } from "react-router-dom";
 
 const Exploration = () => {
+  const [ideas, setIdeas] = useState([]);
+
   useEffect(async () => {
     try {
-      const address = await factory.methods.deployedIdeas("1");
+      const address = await factory.methods.allIdeas().call();
       console.log(address);
+      setIdeas(address);
     } catch (err) {
       console.log(" this is err ", err);
     }
   }, []);
 
-  const ideas = [0, 1, 2, 3, 4, 5, 6, 7];
   return (
     <Container>
       <Header>Explore ideas</Header>
       <Divider />
       <Grid stackable columns={3}>
-        {ideas.map((course, index) => {
+        {ideas.map((ideaAddress, index) => {
           return (
             <Grid.Column key={index}>
               <Container fluid textAlign="center">
-                <IdeaCard />
+                <NavLink
+                  exact
+                  activeClassName="current"
+                  to={`/user/dashboard/exploration/${ideaAddress}`}
+                >
+                  <IdeaCard />
+                </NavLink>
               </Container>
             </Grid.Column>
           );
