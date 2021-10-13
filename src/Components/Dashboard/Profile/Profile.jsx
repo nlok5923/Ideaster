@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Profile.scss";
 import { useHistory } from "react-router";
 import {
@@ -12,9 +12,14 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { options, genderOptions } from "../../../Content/Profile";
+import { updateProfile } from "../../../Services/profileServices";
+import { UserContext } from "../../../Provider/UserAddressProvider";
 
 const ProfilePage = () => {
+  const info = useContext(UserContext);
+  const { userAddress } = info;
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const setDropdownValues = (e, data) => {
     setUserInformation({ ...userInformation, [data.name]: data.value });
   };
@@ -30,8 +35,7 @@ const ProfilePage = () => {
     profession: "",
     aboutYou: "",
     terms: [],
-    ageMin: "",
-    ageMax: "",
+    age: 0,
   });
 
   const setUserInfo = (e) => {
@@ -41,6 +45,18 @@ const ProfilePage = () => {
   const returnBack = () => {
     history.goBack();
   };
+
+  const profileUpdate = async () => {
+    try {
+      setLoading(true);
+      // console.log(userInformation + " " + userAddress);
+      await updateProfile(userInformation, userAddress);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -122,18 +138,11 @@ const ProfilePage = () => {
               <Form.Field
                 id="form-input-control-first-name"
                 control={Input}
-                label="min age"
-                name="ageMin"
+                label="your age"
+                name="age"
+                type="number"
                 onChange={(e) => setUserInfo(e)}
-                placeholder="Enter age lower bound"
-              />
-              <Form.Field
-                id="form-input-control-last-name"
-                control={Input}
-                name="ageMax"
-                label="max age"
-                onChange={(e) => setUserInfo(e)}
-                placeholder="Enter age upper bound"
+                placeholder="your age"
               />
             </Form.Group>
             <Form.Field
@@ -170,6 +179,8 @@ const ProfilePage = () => {
           icon="save"
           style={{ marginTop: "20px" }}
           size="large"
+          onClick={() => profileUpdate()}
+          loading={loading}
           floated="center"
         />
         <Button

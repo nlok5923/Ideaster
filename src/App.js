@@ -9,29 +9,36 @@ import ProfilePage from "./Components/Dashboard/Profile/Profile";
 import Header from "./Components/Shared/Header/Header";
 import Exploration from "./Components/Dashboard/Exploration/Exploration";
 import IdeaPage from "./Components/IdeaPage/IdeaPage";
+import UserAddressProvider from "./Provider/UserAddressProvider";
 
 const App = () => {
   return (
     <div>
-      <Router>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/user/dashboard" component={Dashboard} />
-          <Route exact path="/user/dashboard/create" component={Create} />
-          <Route exact path="/user/dashboard/profile" component={ProfilePage} />
-          <Route
-            exact
-            path="/user/dashboard/exploration"
-            component={Exploration}
-          />
-          <Route
-            exact
-            path="/user/dashboard/exploration/:ideaAddress"
-            component={IdeaPage}
-          />
-        </Switch>
-      </Router>
+      <UserAddressProvider>
+        <Router>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/user/dashboard" component={Dashboard} />
+            <Route exact path="/user/dashboard/create" component={Create} />
+            <Route
+              exact
+              path="/user/dashboard/profile"
+              component={ProfilePage}
+            />
+            <Route
+              exact
+              path="/user/dashboard/exploration"
+              component={Exploration}
+            />
+            <Route
+              exact
+              path="/user/dashboard/exploration/:ideaAddress"
+              component={IdeaPage}
+            />
+          </Switch>
+        </Router>
+      </UserAddressProvider>
     </div>
   );
 };
