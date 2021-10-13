@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Profile.scss";
 import { useHistory } from "react-router";
 import {
@@ -12,8 +12,12 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { options, genderOptions } from "../../../Content/Profile";
-import { updateProfile } from "../../../Services/profileServices";
+import {
+  updateProfile,
+  getParticularUserProfile,
+} from "../../../Services/profileServices";
 import { UserContext } from "../../../Provider/UserAddressProvider";
+import toast, { Toaster } from "react-hot-toast";
 
 const ProfilePage = () => {
   const info = useContext(UserContext);
@@ -51,14 +55,40 @@ const ProfilePage = () => {
       setLoading(true);
       // console.log(userInformation + " " + userAddress);
       await updateProfile(userInformation, userAddress);
+      toast.success("Successfully updated profile !!");
       setLoading(false);
     } catch (err) {
+      toast.error("Error occured during update !!");
       console.log(err);
     }
   };
 
+  useEffect(async () => {
+    try {
+      if (userAddress) {
+        const userData = await getParticularUserProfile(userAddress);
+        setUserInformation({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          gender: userData.gender,
+          email: userData.email,
+          city: userData.city,
+          state: userData.city,
+          country: userData.country,
+          profession: userAddress.profession,
+          aboutYou: userData.aboutYou,
+          terms: userData.terms,
+          age: userData.age,
+        });
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  }, [userAddress]);
+
   return (
     <>
+      <Toaster />
       <Container>
         <Header as="h1" textAlign="center">
           Update your profile here
@@ -70,6 +100,7 @@ const ProfilePage = () => {
                 id="form-input-control-first-name"
                 control={Input}
                 name="firstName"
+                value={userInformation.firstName}
                 onChange={(e) => setUserInfo(e)}
                 label="First name"
                 placeholder="First name"
@@ -78,6 +109,7 @@ const ProfilePage = () => {
                 id="form-input-control-last-name"
                 control={Input}
                 label="Last name"
+                value={userInformation.lastName}
                 name="lastName"
                 onChange={(e) => setUserInfo(e)}
                 placeholder="Last name"
@@ -97,13 +129,15 @@ const ProfilePage = () => {
                 id="form-input-control-first-name"
                 control={Input}
                 label="email"
+                value={userInformation.email}
                 name="email"
                 onChange={(e) => setUserInfo(e)}
-                placeholder="First name"
+                placeholder="Enter email"
               />
               <Form.Field
                 id="form-input-control-last-name"
                 control={Input}
+                value={userInformation.email}
                 label="confirm email"
                 placeholder="confirm email"
               />
@@ -113,6 +147,7 @@ const ProfilePage = () => {
                 id="form-input-control-first-name"
                 control={Input}
                 name="city"
+                value={userInformation.city}
                 onChange={(e) => setUserInfo(e)}
                 label="Enter city name"
                 placeholder="city"
@@ -121,6 +156,7 @@ const ProfilePage = () => {
                 id="form-input-control-last-name"
                 control={Input}
                 name="state"
+                value={userInformation.state}
                 onChange={(e) => setUserInfo(e)}
                 label="Enter state name"
                 placeholder="state"
@@ -129,6 +165,7 @@ const ProfilePage = () => {
                 id="form-input-control-last-name"
                 control={Input}
                 name="country"
+                value={userInformation.country}
                 onChange={(e) => setUserInfo(e)}
                 label="Enter country name"
                 placeholder="country"
@@ -140,6 +177,7 @@ const ProfilePage = () => {
                 control={Input}
                 label="your age"
                 name="age"
+                value={userInformation.age}
                 type="number"
                 onChange={(e) => setUserInfo(e)}
                 placeholder="your age"
@@ -150,6 +188,7 @@ const ProfilePage = () => {
               control={Input}
               onChange={(e) => setUserInfo(e)}
               name="profession"
+              value={userInformation.profession}
               label="Enter your profession"
               placeholder="profession"
             />
@@ -157,6 +196,7 @@ const ProfilePage = () => {
               id="form-textarea-control-opinion"
               control={TextArea}
               name="aboutYou"
+              value={userInformation.aboutYou}
               onChange={(e) => setUserInfo(e)}
               label="Enter some information about you"
               placeholder="About you"

@@ -298,6 +298,7 @@ pragma solidity ^0.4.17;
 
 contract ideaFactory {
     address[] public deployedIdeas;
+    mapping(address => uint256) userBalance;
 
     function createIdeas(
         string title,
@@ -322,6 +323,15 @@ contract ideaFactory {
         deployedIdeas.push(newIdea);
     }
 
+    function depositBalance() public payable {
+        //msg.sender
+        userBalance[msg.sender] += msg.value;
+    }
+
+    function getUserBalance() public view returns (uint256) {
+        return userBalance[msg.sender];
+    }
+
     function allIdeas() public view returns (address[] memory) {
         return deployedIdeas;
     }
@@ -333,6 +343,7 @@ contract idea {
         uint256 approvalCount;
         string title;
         address recipient;
+        address[] baggers;
     }
 
     string ideaDescription;
@@ -342,11 +353,14 @@ contract idea {
     uint256 ideaAgeMax;
     uint256 ideaAgeMin;
     uint256 ideaThreshold;
+    // string state;
+    // string gender;
     // string[] ideaTypes;
     address ideaManager;
     mapping(address => bool) reviewers;
     Review[] public reviews;
 
+    // age, city, country, gender, profession, terms, state
     function idea(
         string title,
         string description,
@@ -370,11 +384,13 @@ contract idea {
     }
 
     function createReview(string description, string title) public {
+        address[] emptyArray;
         Review memory newReview = Review({
             description: description,
             recipient: msg.sender,
             approvalCount: 0,
-            title: title
+            title: title,
+            baggers: emptyArray
         });
         reviewers[msg.sender] = true;
         reviews.push(newReview);
@@ -382,7 +398,7 @@ contract idea {
 
     function approveReview(uint256 index) public {
         require(reviewers[msg.sender]);
-
+        reviews[index].baggers.push(msg.sender);
         Review storage currentReview = reviews[index];
         currentReview.approvalCount = currentReview.approvalCount + 1;
     }
@@ -394,9 +410,22 @@ contract idea {
             string,
             string,
             address,
+            uint256,
+            uint256,
+            uint256,
+            uint256,
             uint256
         )
     {
-        return (ideaTitle, ideaDescription, ideaManager, reviews.length);
+        return (
+            ideaTitle,
+            ideaDescription,
+            ideaManager,
+            reviews.length,
+            ideaAmt,
+            ideaAgeMax,
+            ideaAgeMin,
+            ideaThreshold
+        );
     }
 }

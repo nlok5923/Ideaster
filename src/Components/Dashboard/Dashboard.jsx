@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Navigation from "../Shared/Navigation/Navigation";
 import "./Dashboard.scss";
 import IdeaCard from "../Shared/Card/Card";
 import { Button, Form, Input } from "semantic-ui-react";
+import { UserContext } from "../../Provider/UserAddressProvider";
+import web3 from "../../ethereum/web3";
+import Factory from "../../ethereum/Factory";
 
 const Dashboard = () => {
+  const info = useContext(UserContext);
+  const { userAddress } = info;
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [addMoney, setAddMoney] = useState({ amt: "" });
+  const [transactionLoading, setTransactionLoading] = useState(false);
+
+  useEffect(async () => {
+    try {
+      const balance = await Factory.methods.getUserBalance().call();
+      console.log(balance);
+      setCurrentBalance(currentBalance);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, [userAddress]);
+
+  const initTransaction = async () => {
+    try {
+      setTransactionLoading(true);
+      await Factory.methods.depositBalance().send({
+        from: userAddress,
+        value: web3.utils.toWei(addMoney.amt, "ether"),
+        type: "0x2",
+      });
+      setTransactionLoading(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <>
       <div>
@@ -23,17 +56,28 @@ const Dashboard = () => {
                         <Form.Field
                           id="form-input-control-last-name"
                           control={Input}
-                          name="amount"
+                          name="amt"
+                          onChange={(e) =>
+                            setAddMoney({ [e.target.name]: e.target.value })
+                          }
                           placeholder="Enter amount to add"
-                          type="number"
+                          type="text"
                         />
                       </Form>
                     </div>
                     <div className="status-actions-element">
-                      <Button content="Add money" color="red" icon="money" />
+                      <Button
+                        content="Add money"
+                        color="red"
+                        icon="money"
+                        onClick={() => initTransaction()}
+                        loading={transactionLoading}
+                      />
                     </div>
                   </div>
-                  <div className="status-state">Your Balance: 0.0 eth</div>
+                  <div className="status-state">
+                    Your Balance: {currentBalance} eth
+                  </div>
                 </div>
                 <div className="contain">
                   <IdeaCard />

@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import "./Review.scss";
 import { Card, Icon, Modal, Button, Header } from "semantic-ui-react";
 
-const Review = () => {
+const Review = (props) => {
   const description = " this is a test description ";
-
+  console.log(props);
   return (
     <>
       <Card fluid>
@@ -14,7 +15,8 @@ const Review = () => {
           <Modal
             trigger={
               <Button>
-                <Icon name="user" />4 Approval
+                <Icon name="user" />
+                {props.data.approvalCount} Approval
               </Button>
             }
             header="Reminder!"
