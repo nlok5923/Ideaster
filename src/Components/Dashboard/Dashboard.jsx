@@ -13,12 +13,18 @@ const Dashboard = () => {
   const [currentBalance, setCurrentBalance] = useState(0);
   const [addMoney, setAddMoney] = useState({ amt: "" });
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [myIdeas, setMyIdeas] = useState([]);
 
   useEffect(async () => {
     try {
-      const balance = await Factory.methods.getUserBalance().call();
-      console.log(balance);
-      setCurrentBalance(currentBalance);
+      const balance = await Factory.methods.getUserBalance(userAddress).call();
+      console.log("this is account balance", balance + " " + userAddress);
+      const myIdeasAddress = await Factory.methods
+        .getAllMyIdeas(userAddress)
+        .call();
+      console.log(myIdeasAddress);
+      setMyIdeas(myIdeasAddress);
+      setCurrentBalance(balance / 1000000000000000000);
     } catch (err) {
       console.log(err.message);
     }
@@ -33,6 +39,7 @@ const Dashboard = () => {
         type: "0x2",
       });
       setTransactionLoading(false);
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -80,11 +87,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="contain">
-                  <IdeaCard />
-                  <IdeaCard />
-                  <IdeaCard />
-                  <IdeaCard />
-                  <IdeaCard />
+                  {myIdeas.map((address, index) => {
+                    return <IdeaCard key={index} data={address} />;
+                  })}
                 </div>
               </div>
             </div>

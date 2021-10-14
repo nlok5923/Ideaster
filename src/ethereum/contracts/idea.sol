@@ -299,6 +299,7 @@ pragma solidity ^0.4.17;
 contract ideaFactory {
     address[] public deployedIdeas;
     mapping(address => uint256) userBalance;
+    mapping(address => address[]) userIdeaMapping;
 
     function createIdeas(
         string title,
@@ -320,6 +321,7 @@ contract ideaFactory {
             threshold,
             msg.sender
         );
+        userIdeaMapping[msg.sender].push(newIdea);
         deployedIdeas.push(newIdea);
     }
 
@@ -328,12 +330,20 @@ contract ideaFactory {
         userBalance[msg.sender] += msg.value;
     }
 
-    function getUserBalance() public view returns (uint256) {
-        return userBalance[msg.sender];
+    function getUserBalance(address userAddress) public returns (uint256) {
+        return userBalance[userAddress];
     }
 
     function allIdeas() public view returns (address[] memory) {
         return deployedIdeas;
+    }
+
+    function getAllMyIdeas(address userAddress)
+        public
+        view
+        returns (address[] memory)
+    {
+        return userIdeaMapping[userAddress];
     }
 }
 

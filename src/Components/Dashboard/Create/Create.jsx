@@ -9,7 +9,7 @@ import {
   Message,
 } from "semantic-ui-react";
 import { EditorState } from "draft-js";
-import { options } from "../../../Content/Profile";
+import { options, genderOptions } from "../../../Content/Profile";
 import { convertToHTML } from "draft-convert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -30,6 +30,9 @@ const Create = () => {
     amount: "",
     ageMin: "",
     ageMax: "",
+    state: "",
+    country: "",
+    gender: "",
   });
 
   const [errMessage, setErrMessage] = useState("");
@@ -75,6 +78,9 @@ const Create = () => {
           idea.amount,
           idea.ageMax,
           idea.ageMin
+          // idea.state,
+          // idea.country,
+          // idea.gender
         )
         .send({
           from: accounts[0],
@@ -166,6 +172,37 @@ const Create = () => {
                 onChange={(e) => setEssentialValues(e)}
                 placeholder="Enter amount to disburse"
                 type="number"
+              />
+            </Form.Group>
+            {/* state country gender
+             */}
+            <Form.Group widths="equal">
+              <Form.Field
+                name="state"
+                type="text"
+                id="form-input-control-last-name"
+                control={Input}
+                label="enter state name"
+                onChange={(e) => setEssentialValues(e)}
+                placeholder="Enter state name"
+              />
+              <Form.Field
+                name="country"
+                type="text"
+                id="form-input-control-last-name"
+                control={Input}
+                label="enter country name"
+                onChange={(e) => setEssentialValues(e)}
+                placeholder="Enter country name"
+              />
+              <Dropdown
+                placeholder="select your gender"
+                name="gender"
+                fluid
+                search
+                selection
+                onChange={(e, data) => setDropdownValues(e, data)}
+                options={genderOptions}
               />
             </Form.Group>
             <Message error header="Oops!" content={errMessage} />

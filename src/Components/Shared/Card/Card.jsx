@@ -1,17 +1,15 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Card } from "semantic-ui-react";
 
-const IdeaCard = () => {
+const IdeaCard = (props) => {
   return (
     <Card
       link
-      header="Rick Sanchez"
-      meta="Scientist"
+      header={props.data}
+      meta="this is your idea"
       fluid
-      description={[
-        "Rick is a genius scientist whose alcoholism and reckless,",
-        " nihilistic behavior are a source of concern for his family.",
-      ].join("")}
+      description={["head in to see your idea review status !!"].join("")}
     />
   );
 };
