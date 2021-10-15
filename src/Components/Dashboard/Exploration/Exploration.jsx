@@ -4,6 +4,7 @@ import { Container, Divider, Header, Grid } from "semantic-ui-react";
 import IdeaCard from "../../Shared/IdeaCard/IdeaCard";
 import factory from "../../../ethereum/Factory";
 import { NavLink } from "react-router-dom";
+import Loader from "../../Shared/Loader/Loader";
 // import { UserContext } from "../../../Provider/UserAddressProvider";
 import Idea from "../../../ethereum/Idea";
 // remebers to add unique string with idea
@@ -11,18 +12,25 @@ import Idea from "../../../ethereum/Idea";
 // also add field like state country gender
 const Exploration = () => {
   const [ideas, setIdeas] = useState([]);
+  const [fetchAllIdeas, setFetchedIdeas] = useState(false);
   // const info = useContext(UserContext);
   // const { age, city, country, gender, profession, terms, state } = info;
   const [allIdeas, setAllIdeas] = useState([]);
 
   useEffect(() => {
     try {
+      setFetchedIdeas(true);
       ideas.map(async (ideaAddress, index) => {
         const ideaInstance = Idea(ideaAddress);
         const ideaInfo = await ideaInstance.methods.getSummary().call();
-        setAllIdeas((allIdeas) => [...allIdeas, ideaInfo]);
+        setAllIdeas((allIdeas) => [
+          ...allIdeas,
+          { address: ideaAddress, ideaInfo },
+        ]);
+        console.log(allIdeas);
         console.log(ideaInfo);
       });
+      setFetchedIdeas(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -54,27 +62,30 @@ const Exploration = () => {
   };
 
   return (
-    <Container>
-      <Header>Explore ideas</Header>
-      <Divider />
-      <Grid stackable columns={3}>
-        {allIdeas.filter(filterIdea).map((ideaAddress, index) => {
-          return (
-            <Grid.Column key={index}>
-              <Container fluid textAlign="center">
-                <NavLink
-                  exact
-                  activeClassName="current"
-                  to={`/user/dashboard/exploration`}
-                >
-                  <IdeaCard />
-                </NavLink>
-              </Container>
-            </Grid.Column>
-          );
-        })}
-      </Grid>
-    </Container>
+    <>
+      {fetchAllIdeas && <Loader />}
+      <Container>
+        <Header>Explore ideas</Header>
+        <Divider />
+        <Grid stackable columns={3}>
+          {allIdeas.filter(filterIdea).map((idea, index) => {
+            return (
+              <Grid.Column key={index}>
+                <Container fluid textAlign="center">
+                  <NavLink
+                    exact
+                    activeClassName="current"
+                    to={`/user/dashboard/exploration/${idea.address}`}
+                  >
+                    <IdeaCard />
+                  </NavLink>
+                </Container>
+              </Grid.Column>
+            );
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 };
 

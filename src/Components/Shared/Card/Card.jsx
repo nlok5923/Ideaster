@@ -9,6 +9,7 @@ const IdeaCard = (props) => {
       header={props.data}
       meta="this is your idea"
       fluid
+      style={{ marginTop: "10px" }}
       description={["head in to see your idea review status !!"].join("")}
     />
   );

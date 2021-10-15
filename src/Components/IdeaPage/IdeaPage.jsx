@@ -14,6 +14,7 @@ import Review from "./Review/Review";
 import Idea from "../../ethereum/Idea";
 import DOMPurify from "dompurify";
 import { UserContext } from "../../Provider/UserAddressProvider";
+import toast, { Toaster } from "react-hot-toast";
 
 const IdeaPage = () => {
   const info = useContext(UserContext);
@@ -67,8 +68,10 @@ const IdeaPage = () => {
         });
       setLoading(false);
       setOpen(false);
+      toast.success(" Review added successfully !!");
     } catch (err) {
       console.log(err.message);
+      toast.success("Adding review didn't worked !!");
     }
   };
 
@@ -93,6 +96,7 @@ const IdeaPage = () => {
 
   return (
     <>
+      <Toaster />
       <Container>
         <Segment>
           this is the {ideaSummary.reviewLength} idea area {currentAddress}

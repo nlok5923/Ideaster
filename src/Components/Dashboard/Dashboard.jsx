@@ -6,6 +6,8 @@ import { Button, Form, Input } from "semantic-ui-react";
 import { UserContext } from "../../Provider/UserAddressProvider";
 import web3 from "../../ethereum/web3";
 import Factory from "../../ethereum/Factory";
+import { NavLink } from "react-router-dom";
+import Loader from "../Shared/Loader/Loader";
 
 const Dashboard = () => {
   const info = useContext(UserContext);
@@ -14,9 +16,11 @@ const Dashboard = () => {
   const [addMoney, setAddMoney] = useState({ amt: "" });
   const [transactionLoading, setTransactionLoading] = useState(false);
   const [myIdeas, setMyIdeas] = useState([]);
+  const [fetchAllIdeas, setFetchedIdeas] = useState(false);
 
   useEffect(async () => {
     try {
+      setFetchedIdeas(true);
       const balance = await Factory.methods.getUserBalance(userAddress).call();
       console.log("this is account balance", balance + " " + userAddress);
       const myIdeasAddress = await Factory.methods
@@ -25,6 +29,7 @@ const Dashboard = () => {
       console.log(myIdeasAddress);
       setMyIdeas(myIdeasAddress);
       setCurrentBalance(balance / 1000000000000000000);
+      setFetchedIdeas(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -47,6 +52,7 @@ const Dashboard = () => {
 
   return (
     <>
+      {fetchAllIdeas && <Loader />}
       <div>
         <div className="page">
           <div className="body-area">
@@ -88,7 +94,16 @@ const Dashboard = () => {
                 </div>
                 <div className="contain">
                   {myIdeas.map((address, index) => {
-                    return <IdeaCard key={index} data={address} />;
+                    return (
+                      <NavLink
+                        key={index}
+                        exact
+                        activeClassName="current"
+                        to={`/user/dashboard/exploration/${address}`}
+                      >
+                        <IdeaCard data={address} />
+                      </NavLink>
+                    );
                   })}
                 </div>
               </div>
