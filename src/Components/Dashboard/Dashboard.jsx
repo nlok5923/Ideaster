@@ -28,6 +28,7 @@ const Dashboard = () => {
         .call();
       console.log(myIdeasAddress);
       setMyIdeas(myIdeasAddress);
+      // 1000000000000000000 10^18
       setCurrentBalance(balance / 1000000000000000000);
       setFetchedIdeas(false);
     } catch (err) {
@@ -99,7 +100,7 @@ const Dashboard = () => {
                         key={index}
                         exact
                         activeClassName="current"
-                        to={`/user/dashboard/exploration/${address}`}
+                        to={`/user/dashboard/your-idea/${address}`}
                       >
                         <IdeaCard data={address} />
                       </NavLink>

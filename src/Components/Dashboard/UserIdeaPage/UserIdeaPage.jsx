@@ -1,5 +1,5 @@
+import "./UserIdeaPage.scss";
 import React, { useEffect, useState, useContext } from "react";
-import "./IdeaPage.scss";
 import { useParams } from "react-router";
 import {
   Container,
@@ -9,17 +9,22 @@ import {
   Modal,
   Form,
   Icon,
+  Input,
 } from "semantic-ui-react";
-import Review from "./Review/Review";
-import Idea from "../../ethereum/Idea";
+import Review from "../../IdeaPage/Review/Review";
+import Idea from "../../../ethereum/Idea";
 import DOMPurify from "dompurify";
-import { UserContext } from "../../Provider/UserAddressProvider";
+import { UserContext } from "../../../Provider/UserAddressProvider";
 import toast, { Toaster } from "react-hot-toast";
+import web3 from "../../../ethereum/web3";
 
-const IdeaPage = () => {
+const UserIdeaPage = () => {
   const info = useContext(UserContext);
   const { userAddress, age } = info;
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [transactionLoading, setTransactionLoading] = useState(false);
   const [allReviewers, setAllReviewers] = useState([]);
+  const [addMoney, setAddMoney] = useState({ amt: "" });
   const [loading, setLoading] = useState(false);
   const [currentAddress, setCurrentAddress] = useState("");
   const { ideaAddress } = useParams();
@@ -39,6 +44,18 @@ const IdeaPage = () => {
       __html: DOMPurify.sanitize(html),
     };
   };
+
+  useEffect(async () => {
+    try {
+      const idea = Idea(ideaAddress);
+      setIdeaInstance(idea);
+      const balance = await idea.methods.getIdeaBalance().call();
+      // 1000000000000000000 10^18
+      setCurrentBalance(balance / 1000000000000000000);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, [userAddress]);
 
   useEffect(() => {
     try {
@@ -76,6 +93,21 @@ const IdeaPage = () => {
     }
   };
 
+  const initTransaction = async () => {
+    try {
+      setTransactionLoading(true);
+      await ideaInstance.methods.depositBalanceToIdea().send({
+        from: userAddress,
+        value: web3.utils.toWei(addMoney.amt, "ether"),
+        type: "0x2",
+      });
+      setTransactionLoading(false);
+      window.location.reload();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   useEffect(async () => {
     console.log(" this is user age ", age);
     setCurrentAddress(ideaAddress);
@@ -96,6 +128,27 @@ const IdeaPage = () => {
     <>
       <Toaster />
       <Container>
+        <Segment>
+          <Form>
+            <Form.Field
+              id="form-input-control-last-name"
+              control={Input}
+              name="amt"
+              onChange={(e) => setAddMoney({ [e.target.name]: e.target.value })}
+              placeholder="Enter amount to add"
+              type="text"
+            />
+          </Form>
+          <br />
+          <Button
+            content="Add money"
+            color="red"
+            icon="money"
+            onClick={() => initTransaction()}
+            loading={transactionLoading}
+          />
+        </Segment>
+        <Segment>Your idea balance {currentBalance}</Segment>
         <Segment>
           this is the {ideaSummary.reviewLength} idea area {currentAddress}
           {allReviews.length}
@@ -159,7 +212,7 @@ const IdeaPage = () => {
                 index={index}
                 ideaAddress={ideaAddress}
                 allReviewers={allReviewers}
-                isAdmin={false}
+                isAdmin={true}
               />
             );
           })}
@@ -169,4 +222,4 @@ const IdeaPage = () => {
   );
 };
 
-export default IdeaPage;
+export default UserIdeaPage;

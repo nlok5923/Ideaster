@@ -10,6 +10,7 @@ import Header from "./Components/Shared/Header/Header";
 import Exploration from "./Components/Dashboard/Exploration/Exploration";
 import IdeaPage from "./Components/IdeaPage/IdeaPage";
 import UserAddressProvider from "./Provider/UserAddressProvider";
+import UserIdeaPage from "./Components/Dashboard/UserIdeaPage/UserIdeaPage";
 
 const App = () => {
   return (
@@ -35,6 +36,11 @@ const App = () => {
               exact
               path="/user/dashboard/exploration/:ideaAddress"
               component={IdeaPage}
+            />
+            <Route
+              exact
+              path="/user/dashboard/your-idea/:ideaAddress"
+              component={UserIdeaPage}
             />
           </Switch>
         </Router>

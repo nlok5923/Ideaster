@@ -9,7 +9,7 @@ import {
   Message,
 } from "semantic-ui-react";
 import { EditorState } from "draft-js";
-import { options, genderOptions } from "../../../Content/Profile";
+import { options } from "../../../Content/Profile";
 import { convertToHTML } from "draft-convert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -22,7 +22,6 @@ import toast, { Toaster } from "react-hot-toast";
 const Create = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-
   const [idea, setIdea] = useState({
     title: "",
     types: "",
@@ -68,6 +67,9 @@ const Create = () => {
 
   const deployIdea = async () => {
     try {
+      // if (idea.amount > currentBalance) {
+      //   toast.error("you don't have enough balance to deploy idea !!");
+      // } else {
       setLoading(true);
       const accounts = await web3.eth.getAccounts();
       await factory.methods
@@ -78,9 +80,6 @@ const Create = () => {
           idea.amount,
           idea.ageMax,
           idea.ageMin
-          // idea.state,
-          // idea.country,
-          // idea.gender
         )
         .send({
           from: accounts[0],
@@ -88,6 +87,7 @@ const Create = () => {
         });
       toast.success("Success fully deployed idea !!");
       setLoading(false);
+      // }
     } catch (err) {
       console.log("this err occured ", err);
       toast.error("Probably it didn't worked !!");
@@ -176,7 +176,7 @@ const Create = () => {
             </Form.Group>
             {/* state country gender
              */}
-            <Form.Group widths="equal">
+            {/* <Form.Group widths="equal">
               <Form.Field
                 name="state"
                 type="text"
@@ -204,7 +204,7 @@ const Create = () => {
                 onChange={(e, data) => setDropdownValues(e, data)}
                 options={genderOptions}
               />
-            </Form.Group>
+            </Form.Group> */}
             <Message error header="Oops!" content={errMessage} />
           </Form>
           <Button
