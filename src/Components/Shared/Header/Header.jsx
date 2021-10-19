@@ -8,7 +8,7 @@ const Header = () => {
   console.log(userAddress);
   return (
     <div className="head">
-      <img className="head-logo" src="/asset/images/idea.png" alt="logo" />
+      <img className="head-logo" src="/asset/images/logo.png" alt="logo" />
       <div className="head-content">
         <div className="head-content-profile">
           <img src="/asset/images/blockchain.png" alt="logo" />
