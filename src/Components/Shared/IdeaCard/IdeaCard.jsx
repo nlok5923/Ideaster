@@ -4,7 +4,8 @@ import React from "react";
 import "./IdeaCard.scss";
 import { Card } from "semantic-ui-react";
 
-const IdeaCard = () => {
+const IdeaCard = (props) => {
+  console.log(" this is props ", props);
   return (
     <Card link>
       <img
@@ -13,10 +14,9 @@ const IdeaCard = () => {
         alt="card"
       />
       <Card.Content>
-        <Card.Header>dsdssd</Card.Header>
-        <Card.Description>this is a test description</Card.Description>
+        <Card.Header>{props.data.ideaInfo[0]}</Card.Header>
         <Card.Description>
-          <span>we need meta here </span>
+          Creator: {props.data.ideaInfo[2].slice(0, 20) + "..."}
         </Card.Description>
       </Card.Content>
     </Card>

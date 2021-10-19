@@ -37,6 +37,7 @@ const UserIdeaPage = () => {
     description: "",
     address: "",
     reviewLength: 0,
+    ideaAmt: 0,
   });
 
   const createMarkup = (html) => {
@@ -114,12 +115,15 @@ const UserIdeaPage = () => {
     const idea = Idea(ideaAddress);
     setIdeaInstance(idea);
     const ideaInfo = await idea.methods.getSummary().call();
+    console.log(ideaInfo);
     setIdeaSummary({
       title: ideaInfo[0],
       description: ideaInfo[1],
       address: ideaInfo[2],
       reviewLength: ideaInfo[3],
+      ideaAmt: ideaInfo[4],
     });
+    console.log(currentAddress);
     const addressOfReviewers = await idea.methods.getAllReviewers().call();
     setAllReviewers(addressOfReviewers);
   }, []);
@@ -127,45 +131,62 @@ const UserIdeaPage = () => {
   return (
     <>
       <Toaster />
-      <Container>
+      <Container style={{ marginTop: "20px" }}>
+        <Header as="h3">/dashboard/your-idea/Idea/{ideaAddress}</Header>
         <Segment>
+          <b>Requested amount already prefilled 😄</b> <br />
           <Form>
-            <Form.Field
-              id="form-input-control-last-name"
-              control={Input}
-              name="amt"
-              onChange={(e) => setAddMoney({ [e.target.name]: e.target.value })}
-              placeholder="Enter amount to add"
-              type="text"
-            />
+            <Form.Group>
+              <Form.Field
+                id="form-input-control-last-name"
+                control={Input}
+                name="amt"
+                value={ideaSummary.ideaAmt / 1000000000000000000}
+                onChange={(e) =>
+                  setAddMoney({ [e.target.name]: e.target.value })
+                }
+                placeholder="Enter amount to add"
+                type="text"
+              />
+              <br />
+              <Button
+                content="Add money"
+                color="red"
+                icon="money"
+                onClick={() => initTransaction()}
+                loading={transactionLoading}
+              />
+            </Form.Group>
           </Form>
-          <br />
-          <Button
-            content="Add money"
-            color="red"
-            icon="money"
-            onClick={() => initTransaction()}
-            loading={transactionLoading}
-          />
         </Segment>
-        <Segment>Your idea balance {currentBalance}</Segment>
         <Segment>
-          this is the {ideaSummary.reviewLength} idea area {currentAddress}
-          {allReviews.length}
+          <b>Your idea balance: </b> {currentBalance} eth
+        </Segment>
+        <Segment>
+          <b>Title: </b>
           {ideaSummary.title}
         </Segment>
         <Segment>
+          <b>Description: </b>
           <div
             className="preview"
             dangerouslySetInnerHTML={createMarkup(ideaSummary.description)}
           ></div>
+        </Segment>
+        <Segment>
+          <b>Managed by:</b> {ideaSummary.address}
         </Segment>
         <Header as="h1">All Reviews</Header>
         <Segment>
           <Modal
             closeIcon
             open={open}
-            trigger={<Button>Add your review </Button>}
+            trigger={
+              <Button icon color="green">
+                <Icon name="add" />
+                Add your review
+              </Button>
+            }
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
           >

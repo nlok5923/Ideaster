@@ -1,45 +1,52 @@
 @mixin display-config($justify, $align, $direction) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: $justify;
-    align-items: $align;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
 }
 
 @mixin font-config($size, $weight, $color, $family) {
-    font-size: $size;
-    font-weight: $weight;
-    color: $color;
-    font-family: $family;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+  font-family: $family;
 }
 
 .body-area {
-    @include display-config(center, normal, row);
-    &-navigation {
+  @include display-config(center, normal, row);
+  &-navigation {
     @include font-config(15px, bold, black, "roboto");
-        width: 16%;
-        letter-spacing: 1px;
-        background-color: #FCFBFF;
-        margin-top: 1%;
+    width: 16%;
+    letter-spacing: 1px;
+    background-color: #fcfbff;
+    margin-top: 1%;
 
-        &-element {
-            height: 60px;
-            width: 100%;
+    &-element {
+      height: 60px;
+      width: 100%;
+      color: black;
 
-            &-sub {
-                padding-top: 10px;
-                position: relative;
-                @include display-config(flex-start, center, row);
-
-                &-text {
-                    padding-left: 20px;
-                }
-            }
+      &-sub {
+        padding-top: 10px;
+        position: relative;
+        @include display-config(flex-start, center, row);
+        img {
+          height: 40px;
+          width: 40px;
         }
 
-        &-element:hover {
-            background-color: #E1D8F1;
-            border-left: 6px solid #673AB7;
-            cursor: pointer;
-        } 
+        &-text {
+          padding-left: 20px;
+          text-decoration: none;
+        }
+      }
     }
+
+    &-element:hover {
+      background-color: #9e9c9c;
+      border-left: 6px solid #030202;
+      cursor: pointer;
+      color: white;
+    }
+  }
 }

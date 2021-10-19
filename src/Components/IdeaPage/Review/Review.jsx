@@ -9,6 +9,7 @@ import {
   Button,
   Form,
   Header,
+  Segment,
 } from "semantic-ui-react";
 import { UserContext } from "../../../Provider/UserAddressProvider";
 import toast, { Toaster } from "react-hot-toast";
@@ -23,7 +24,6 @@ const Review = (props) => {
   const [addMoney, setAddMoney] = useState({ amt: "" });
   const info = useContext(UserContext);
   const { userAddress } = info;
-  const description = " this is a test description ";
   console.log(props);
 
   const initTransaction = async () => {
@@ -74,14 +74,23 @@ const Review = (props) => {
     <>
       <Toaster />
       <Card fluid>
-        <Card.Content header="About Amy" />
-        <Card.Content description={description} />
+        <Card.Content header={"Reviewer: " + props.data.recipient} />
+        <Card.Content>
+          <Segment>
+            <b> Title: </b>
+            {props.data.description}
+            <br />
+            <br />
+            <b>Description: </b>
+            {props.data.title}
+          </Segment>
+        </Card.Content>
         <Card.Content extra>
           <Modal
             closeIcon
             open={open}
             trigger={
-              <Button>
+              <Button color="green" floated="right">
                 <Icon name="user" />
                 {props.data.approvalCount} Approval
               </Button>
@@ -91,7 +100,8 @@ const Review = (props) => {
           >
             <Header as="h2" content="Confirmation !!" />
             <Modal.Content>
-              Do you really want to approve this review !!
+              Do you really think that this review is constructive review and
+              contributing enough to the idea !!
             </Modal.Content>
             <Modal.Actions>
               <>
@@ -100,10 +110,10 @@ const Review = (props) => {
                   onClick={() => approveReview(props.index)}
                   loading={loading}
                 >
-                  <Icon name="add" /> Yes !!
+                  Yes !!
                 </Button>
                 <Button color="red" onClick={() => setOpen(false)}>
-                  <Icon name="add" /> By mistake
+                  By mistake
                 </Button>
               </>
             </Modal.Actions>
@@ -112,25 +122,27 @@ const Review = (props) => {
           {props.isAdmin ? (
             <div>
               <Form>
-                <Form.Field
-                  id="form-input-control-last-name"
-                  control={Input}
-                  name="amt"
-                  onChange={(e) =>
-                    setAddMoney({ [e.target.name]: e.target.value })
-                  }
-                  placeholder="Enter amount to add"
-                  type="text"
-                />
+                <Form.Group>
+                  <Form.Field
+                    id="form-input-control-last-name"
+                    control={Input}
+                    name="amt"
+                    onChange={(e) =>
+                      setAddMoney({ [e.target.name]: e.target.value })
+                    }
+                    placeholder="Enter amount and reward reviewer"
+                    type="text"
+                  />
+                  <br />
+                  <Button
+                    content="Reward him"
+                    color="red"
+                    icon="money"
+                    onClick={() => initTransaction()}
+                    loading={transactionLoading}
+                  />
+                </Form.Group>
               </Form>
-              <br />
-              <Button
-                content="Add money"
-                color="red"
-                icon="money"
-                onClick={() => initTransaction()}
-                loading={transactionLoading}
-              />
             </div>
           ) : null}
         </Card.Content>

@@ -4,12 +4,12 @@ import {
   Segment,
   Form,
   Button,
-  Dropdown,
+  // Dropdown,
   Input,
   Message,
 } from "semantic-ui-react";
 import { EditorState } from "draft-js";
-import { options } from "../../../Content/Profile";
+// import { options } from "../../../Content/Profile";
 import { convertToHTML } from "draft-convert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -36,9 +36,9 @@ const Create = () => {
 
   const [errMessage, setErrMessage] = useState("");
 
-  const setDropdownValues = (e, data) => {
-    setIdea({ ...idea, [data.name]: data.value });
-  };
+  // const setDropdownValues = (e, data) => {
+  //   setIdea({ ...idea, [data.name]: data.value });
+  // };
 
   const setEssentialValues = (e) => {
     setIdea({ ...idea, [e.target.name]: e.target.value });
@@ -100,7 +100,18 @@ const Create = () => {
       <Container>
         <Toaster />
         <Segment>
-          here we will mention what you need to write in the text editor
+          Few things to note before describing your ideas
+          <ul>
+            <li>Write your statements to the point avoid using heavy jargon</li>
+            <li>Use media to explain your idea in a better way.</li>
+            <li>
+              Involvement of facts and figure makes your idea more authentic
+            </li>
+            <li>
+              Aim for a solution approaching description while writing about
+              your idea.
+            </li>
+          </ul>
         </Segment>
         <Segment>
           <Form error={!!errMessage}>
@@ -123,10 +134,10 @@ const Create = () => {
                 toolbarClassName="toolbar-class"
               />
             </Form.Field>
-            <label>
+            {/* <label>
               <b>Select people which this idea intends for</b>
-            </label>
-            <Dropdown
+            </label> */}
+            {/* <Dropdown
               placeholder="select the people for which it intend for"
               fluid
               name="types"
@@ -134,9 +145,9 @@ const Create = () => {
               selection
               onChange={(e, data) => setDropdownValues(e, data)}
               options={options}
-            />
+            /> */}
 
-            <Form.Group widths="equal">
+            {/* <Form.Group widths="equal">
               <Form.Field
                 id="form-input-control-first-name"
                 control={Input}
@@ -153,7 +164,7 @@ const Create = () => {
                 onChange={(e) => setEssentialValues(e)}
                 placeholder="Enter age upper bound"
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group widths="equal">
               <Form.Field
                 id="form-input-control-first-name"

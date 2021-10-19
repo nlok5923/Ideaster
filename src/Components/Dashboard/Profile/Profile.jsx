@@ -90,7 +90,7 @@ const ProfilePage = () => {
     <>
       <Toaster />
       <Container>
-        <Header as="h1" textAlign="center">
+        <Header style={{ marginTop: "30px" }} as="h1" textAlign="center">
           Update your profile here
         </Header>
         <Segment>

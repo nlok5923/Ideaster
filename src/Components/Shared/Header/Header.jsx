@@ -11,8 +11,8 @@ const Header = () => {
       <img className="head-logo" src="/asset/images/idea.png" alt="logo" />
       <div className="head-content">
         <div className="head-content-profile">
-          <img src="/asset/svg/profile.svg" alt="logo" />
-          {userAddress}
+          <img src="/asset/images/blockchain.png" alt="logo" />
+          <h1>{userAddress}</h1>
         </div>
       </div>
     </div>

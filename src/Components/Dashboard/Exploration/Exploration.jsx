@@ -31,6 +31,7 @@ const Exploration = () => {
         console.log(ideaInfo);
       });
       setFetchedIdeas(false);
+      console.log("all ideas", allIdeas);
     } catch (err) {
       console.log(err.message);
     }
@@ -65,7 +66,9 @@ const Exploration = () => {
     <>
       {fetchAllIdeas && <Loader />}
       <Container>
-        <Header>Explore ideas</Header>
+        <Header style={{ marginTop: "20px" }} as="h3">
+          /dashboard/explore-ideas
+        </Header>
         <Divider />
         <Grid stackable columns={3}>
           {allIdeas.filter(filterIdea).map((idea, index) => {
@@ -77,7 +80,7 @@ const Exploration = () => {
                     activeClassName="current"
                     to={`/user/dashboard/exploration/${idea.address}`}
                   >
-                    <IdeaCard />
+                    <IdeaCard data={idea} />
                   </NavLink>
                 </Container>
               </Grid.Column>

@@ -23,7 +23,7 @@ const Navigation = () => {
       </div>
       <div className="body-area-navigation-element">
         <div className="body-area-navigation-element-sub">
-          <img src="/asset/svg/control.svg" alt="logo" />
+          <img src="/asset/images/search.png" alt="logo" />
           <div className="body-area-navigation-element-sub-text">
             <Link to="/user/dashboard/exploration">Explore ideas</Link>
           </div>

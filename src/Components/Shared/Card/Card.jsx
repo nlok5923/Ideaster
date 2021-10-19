@@ -6,8 +6,8 @@ const IdeaCard = (props) => {
   return (
     <Card
       link
-      header={props.data}
-      meta="this is your idea"
+      header={"IdeaAddress: " + props.data}
+      meta="Idea created by you"
       fluid
       style={{ marginTop: "10px" }}
       description={["head in to see your idea review status !!"].join("")}

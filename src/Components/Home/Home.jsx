@@ -180,7 +180,7 @@ ResponsiveContainer.propTypes = {
 const HomepageLayout = () => (
   <ResponsiveContainer>
     <Container textAlign="center" style={{ marginTop: "35px" }}>
-      coded with 💻 by @nlok5923
+      <b>coded with 💻 by @nlok5923</b>
     </Container>
   </ResponsiveContainer>
 );

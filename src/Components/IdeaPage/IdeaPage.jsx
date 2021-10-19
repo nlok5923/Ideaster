@@ -79,6 +79,7 @@ const IdeaPage = () => {
   useEffect(async () => {
     console.log(" this is user age ", age);
     setCurrentAddress(ideaAddress);
+    console.log(currentAddress);
     const idea = Idea(ideaAddress);
     setIdeaInstance(idea);
     const ideaInfo = await idea.methods.getSummary().call();
@@ -95,24 +96,32 @@ const IdeaPage = () => {
   return (
     <>
       <Toaster />
-      <Container>
+      <Container style={{ marginTop: "20px" }}>
+        <Header as="h3">/dashboard/explore-idea/Idea/{ideaAddress}</Header>
         <Segment>
-          this is the {ideaSummary.reviewLength} idea area {currentAddress}
-          {allReviews.length}
+          <b>Title: </b>
           {ideaSummary.title}
         </Segment>
         <Segment>
+          <b>Description: </b> <br />
           <div
             className="preview"
             dangerouslySetInnerHTML={createMarkup(ideaSummary.description)}
           ></div>
+        </Segment>
+        <Segment>
+          <b>Managed by:</b> {ideaSummary.address}
         </Segment>
         <Header as="h1">All Reviews</Header>
         <Segment>
           <Modal
             closeIcon
             open={open}
-            trigger={<Button>Add your review </Button>}
+            trigger={
+              <Button color="green" icon="add">
+                Add your review
+              </Button>
+            }
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
           >

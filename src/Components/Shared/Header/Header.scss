@@ -1,39 +1,50 @@
 @mixin display-config($justify, $align, $direction) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: $justify;
-    align-items: $align;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
 }
 
 @mixin font-config($size, $weight, $color, $family) {
-    font-size: $size;
-    font-weight: $weight;
-    color: $color;
-    font-family: $family;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+  font-family: $family;
 }
 
 .head {
-    @include display-config(space-between, center, row);
+  @include display-config(space-between, center, row);
+  border-bottom: 1px solid #9e9c9c;
 
-    &-logo {
-        width: 100px;
-        height: 45px;
-        margin-left: 1.2%;
+  &-logo {
+    width: 100px;
+    height: 45px;
+    margin-left: 1.2%;
+  }
+
+  &-content {
+    @include display-config(space-around, center, row);
+    width: 20%;
+
+    &-profile {
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+      h1 {
+        padding-left: 10px;
+        font-size: 15px;
+        padding-right: 15px;
+        margin: auto;
+      }
+      @include display-config(space-around, center, row);
+      @include font-config(15px, bold, rgb(161, 144, 144), "roboto");
     }
 
-    &-content {
-        @include display-config(space-around, center, row);
-        width: 20%;
-
-        &-profile {
-            @include display-config(space-around, center, row);
-            @include font-config(15px, bold, rgb(161, 144, 144), "roboto");
-            width: 40%;
-        }
-
-        &-action {
-            @include display-config(space-around, center, row);
-            width: 60%;
-        }
+    &-action {
+      @include display-config(space-around, center, row);
+      width: 60%;
     }
+  }
 }
