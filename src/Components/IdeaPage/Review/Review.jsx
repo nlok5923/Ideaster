@@ -14,7 +14,7 @@ import {
 import { UserContext } from "../../../Provider/UserAddressProvider";
 import toast, { Toaster } from "react-hot-toast";
 import Idea from "../../../ethereum/Idea";
-// import web3 from "../../../ethereum/web3";
+import web3 from "../../../ethereum/web3";
 
 const Review = (props) => {
   const [ideaInstance, setIdeaInstance] = useState();
@@ -30,8 +30,11 @@ const Review = (props) => {
     try {
       setTransactionLoading(true);
       console.log(addMoney);
+      console.log(
+        props.data[3] + " " + web3.utils.toWei(addMoney.amt, "ether")
+      );
       await ideaInstance.methods
-        .rewardReviewer(props.data[3], addMoney.amt)
+        .rewardReviewer(props.data[3], web3.utils.toWei(addMoney.amt, "ether"))
         .send({
           from: userAddress,
           type: "0x2",
@@ -47,8 +50,9 @@ const Review = (props) => {
     if (userAddress) {
       const idea = Idea(props.ideaAddress);
       setIdeaInstance(idea);
+      console.log("ideainstance is defined now ");
     }
-  }, []);
+  }, [userAddress]);
 
   const approveReview = async (reviewIndex) => {
     try {
