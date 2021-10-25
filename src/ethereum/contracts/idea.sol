@@ -4,6 +4,8 @@ contract ideaFactory {
     address[] public deployedIdeas;
     mapping(address => uint256) userBalance;
     mapping(address => address[]) userIdeaMapping;
+    
+    event ideaDeployed(address _from, string title, string description);
 
     function createIdeas(
         string title,
@@ -24,8 +26,10 @@ contract ideaFactory {
             threshold,
             msg.sender
         );
+        
         userIdeaMapping[msg.sender].push(newIdea);
         deployedIdeas.push(newIdea);
+        ideaDeployed(msg.sender, title, description);
     }
 
     function depositBalance() public payable {
